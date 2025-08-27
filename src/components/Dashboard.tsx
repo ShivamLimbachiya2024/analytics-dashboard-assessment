@@ -103,60 +103,90 @@ const Dashboard: React.FC = () => {
   const rangeData = getRangeDistributionData(processedData.rangeDistribution);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Electric Vehicle Analytics Dashboard
-              </h1>
-              <p className="text-gray-600 mt-1">
-                Comprehensive analysis of EV population data
-              </p>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-gray-500">Data Source</p>
-              <p className="text-sm font-medium text-gray-700">
-                EV Population Dataset
-              </p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 p-4 sm:p-6 lg:p-8 w-[90%] mx-auto">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <header className="bg-white/80 backdrop-blur-sm shadow-lg border-b border-gray-200/50 rounded-t-2xl">
+          <div className="px-8 sm:px-12 lg:px-16 py-10">
+            <div className="flex flex-col lg:flex-row items-center justify-between text-center lg:text-left">
+              <div className="mb-6 lg:mb-0">
+                <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                  Electric Vehicle Analytics Dashboard
+                </h1>
+                <p className="text-gray-600 mt-4 text-lg">
+                  Comprehensive analysis of EV population data with interactive
+                  insights
+                </p>
+              </div>
+              <div className="text-center lg:text-right">
+                <div className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-8 py-4 rounded-xl shadow-lg">
+                  <p className="text-sm font-medium opacity-90">Data Source</p>
+                  <p className="text-lg font-bold">EV Population Dataset</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Key Metrics */}
-        <KeyMetrics data={processedData} />
+        {/* Main Content */}
+        <main className="bg-white/30 backdrop-blur-sm rounded-b-2xl shadow-lg">
+          <div className="px-8 sm:px-12 lg:px-16 py-12">
+            {/* Key Metrics */}
+            <div className="mb-16">
+              <KeyMetrics data={processedData} />
+            </div>
 
-        {/* Charts Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <ManufacturerChart data={manufacturerData} />
-          <VehicleTypeChart data={vehicleTypeData} />
-        </div>
+            {/* Charts Grid */}
+            <div className="space-y-16">
+              {/* First Row - Main Charts */}
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
+                <div className="transform hover:scale-[1.02] transition-all duration-300">
+                  <ManufacturerChart data={manufacturerData} />
+                </div>
+                <div className="transform hover:scale-[1.02] transition-all duration-300">
+                  <VehicleTypeChart data={vehicleTypeData} />
+                </div>
+              </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <YearTrendChart data={yearTrendData} />
-          <RangeDistribution data={rangeData} />
-        </div>
+              {/* Second Row - Trend Charts */}
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
+                <div className="transform hover:scale-[1.02] transition-all duration-300">
+                  <YearTrendChart data={yearTrendData} />
+                </div>
+                <div className="transform hover:scale-[1.02] transition-all duration-300">
+                  <RangeDistribution data={rangeData} />
+                </div>
+              </div>
 
-        <div className="grid grid-cols-1 gap-8">
-          <GeographicChart data={countyData} />
-        </div>
+              {/* Third Row - Geographic Chart */}
+              <div className="flex justify-center">
+                <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
+                  <GeographicChart data={countyData} />
+                </div>
+              </div>
+            </div>
 
-        {/* Footer */}
-        <footer className="mt-12 pt-8 border-t border-gray-200">
-          <div className="text-center text-gray-500 text-sm">
-            <p>Electric Vehicle Analytics Dashboard</p>
-            <p className="mt-1">
-              Analyzing {processedData.totalVehicles.toLocaleString()} electric
-              vehicles
-            </p>
+            {/* Footer */}
+            <footer className="mt-20 pt-16 border-t border-gray-200/50">
+              <div className="text-center">
+                <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-10 shadow-lg border border-gray-200/50 max-w-lg mx-auto">
+                  <div className="text-3xl mb-4">📊</div>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-3">
+                    Electric Vehicle Analytics Dashboard
+                  </h3>
+                  <p className="text-gray-600 text-lg">
+                    Analyzing{" "}
+                    <span className="font-bold text-blue-600">
+                      {processedData.totalVehicles.toLocaleString()}
+                    </span>{" "}
+                    electric vehicles
+                  </p>
+                </div>
+              </div>
+            </footer>
           </div>
-        </footer>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };
