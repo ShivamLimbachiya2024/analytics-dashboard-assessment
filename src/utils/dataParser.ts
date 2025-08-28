@@ -70,11 +70,12 @@ export const processEVData = (data: EVData[]): ProcessedEVData => {
   const totalVehicles = data.length;
 
   // Calculate average range using lodash for better performance
-  const averageRange = _.chain(data)
-    .filter((item) => item.electricRange > 0)
-    .meanBy("electricRange")
-    .round()
-    .value() || 0;
+  const averageRange =
+    _.chain(data)
+      .filter((item) => item.electricRange > 0)
+      .meanBy("electricRange")
+      .round()
+      .value() || 0;
 
   // Use lodash countBy for efficient counting
   const manufacturerCounts = _.countBy(data, "make");
@@ -97,10 +98,22 @@ export const processEVData = (data: EVData[]): ProcessedEVData => {
 
   // Range distribution with proper typing
   const rangeDistribution = {
-    "0-50": _.filter(data, (item) => item.electricRange >= 0 && item.electricRange <= 50).length,
-    "51-100": _.filter(data, (item) => item.electricRange >= 51 && item.electricRange <= 100).length,
-    "101-200": _.filter(data, (item) => item.electricRange >= 101 && item.electricRange <= 200).length,
-    "201-300": _.filter(data, (item) => item.electricRange >= 201 && item.electricRange <= 300).length,
+    "0-50": _.filter(
+      data,
+      (item) => item.electricRange >= 0 && item.electricRange <= 50
+    ).length,
+    "51-100": _.filter(
+      data,
+      (item) => item.electricRange >= 51 && item.electricRange <= 100
+    ).length,
+    "101-200": _.filter(
+      data,
+      (item) => item.electricRange >= 101 && item.electricRange <= 200
+    ).length,
+    "201-300": _.filter(
+      data,
+      (item) => item.electricRange >= 201 && item.electricRange <= 300
+    ).length,
     "300+": _.filter(data, (item) => item.electricRange > 300).length,
   };
 
@@ -139,7 +152,7 @@ export const getVehicleTypeData = (vehicleTypeCounts: {
   PHEV: number;
 }): ChartDataPoint[] => {
   const total = _.sum(_.values(vehicleTypeCounts));
-  
+
   return _.map(vehicleTypeCounts, (count, type) => ({
     name: VEHICLE_TYPES[type as keyof typeof VEHICLE_TYPES],
     value: count,
@@ -155,7 +168,7 @@ export const getYearTrendData = (data: EVData[]): YearTrendData[] => {
     .groupBy("modelYear")
     .map((yearData, year) => {
       const vehicleTypeGroups = _.groupBy(yearData, "electricVehicleType");
-      
+
       return {
         year: _.toInteger(year),
         count: yearData.length,
@@ -190,7 +203,7 @@ export const getRangeDistributionData = (
 ): ChartDataPoint[] => {
   // Ensure proper ordering of range categories
   const orderedKeys = ["0-50", "51-100", "101-200", "201-300", "300+"];
-  
+
   return _.chain(orderedKeys)
     .map((key) => ({
       name: key,
@@ -204,7 +217,7 @@ export const getRangeDistributionData = (
  */
 export const getDataSummary = (data: EVData[]) => {
   const validRanges = _.filter(data, (item) => item.electricRange > 0);
-  
+
   return {
     totalRecords: data.length,
     uniqueManufacturers: _.uniq(_.map(data, "make")).length,
@@ -216,14 +229,17 @@ export const getDataSummary = (data: EVData[]) => {
     rangeStats: {
       min: _.minBy(validRanges, "electricRange")?.electricRange || 0,
       max: _.maxBy(validRanges, "electricRange")?.electricRange || 0,
-      median: _.chain(validRanges)
-        .map("electricRange")
-        .sort()
-        .thru((arr) => {
-          const mid = Math.floor(arr.length / 2);
-          return arr.length % 2 === 0 ? (arr[mid - 1] + arr[mid]) / 2 : arr[mid];
-        })
-        .value() || 0,
+      median:
+        _.chain(validRanges)
+          .map("electricRange")
+          .sort()
+          .thru((arr) => {
+            const mid = Math.floor(arr.length / 2);
+            return arr.length % 2 === 0
+              ? (arr[mid - 1] + arr[mid]) / 2
+              : arr[mid];
+          })
+          .value() || 0,
     },
   };
 };
@@ -244,14 +260,23 @@ export const filterEVData = (
 ): EVData[] => {
   return _.chain(data)
     .filter((item) => {
-      if (filters.manufacturers && !_.includes(filters.manufacturers, item.make)) {
+      if (
+        filters.manufacturers &&
+        !_.includes(filters.manufacturers, item.make)
+      ) {
         return false;
       }
-      if (filters.vehicleTypes && !_.includes(filters.vehicleTypes, item.electricVehicleType)) {
+      if (
+        filters.vehicleTypes &&
+        !_.includes(filters.vehicleTypes, item.electricVehicleType)
+      ) {
         return false;
       }
       if (filters.yearRange) {
-        if (item.modelYear < filters.yearRange.min || item.modelYear > filters.yearRange.max) {
+        if (
+          item.modelYear < filters.yearRange.min ||
+          item.modelYear > filters.yearRange.max
+        ) {
           return false;
         }
       }
@@ -278,9 +303,7 @@ export const getAggregatedData = (
   aggregateField: keyof EVData = "electricRange"
 ) => {
   return _.chain(data)
-    .groupBy((item) => 
-      groupByFields.map(field => item[field]).join("|")
-    )
+    .groupBy((item) => groupByFields.map((field) => item[field]).join("|"))
     .mapValues((group) => ({
       count: group.length,
       avgValue: _.meanBy(group, aggregateField),
@@ -296,5 +319,62 @@ export const getAggregatedData = (
  */
 export const getMemoizedProcessedData = _.memoize(
   processEVData,
-  (data: EVData[]) => `${data.length}-${_.sumBy(data, 'modelYear')}`
+  (data: EVData[]) => `${data.length}-${_.sumBy(data, "modelYear")}`
 );
+export function getStackedBarData(evData: EVData[]) {
+  // Group by county
+  const grouped = _.groupBy(evData, "county");
+
+  return Object.entries(grouped)
+    .map(([county, vehicles]) => {
+      const bevCount = vehicles.filter(
+        (v) => v.electricVehicleType === "Battery Electric Vehicle (BEV)"
+      ).length;
+      const phevCount = vehicles.filter(
+        (v) =>
+          v.electricVehicleType === "Plug-in Hybrid Electric Vehicle (PHEV)"
+      ).length;
+
+      return {
+        county,
+        BEV: bevCount,
+        PHEV: phevCount,
+      };
+    })
+    .map((item) => ({
+      name: item.county, // ✅ add name
+      BEV: item.BEV,
+      PHEV: item.PHEV,
+    }))
+    .sort((a, b) => b.BEV + b.PHEV - a.BEV - a.PHEV); // sort by BEV (desc) + PHEV (desc)
+}
+export const getAreaChartData = (evData: EVData[]) => {
+  return _(evData)
+    .groupBy("modelYear")
+    .map((items, year) => ({
+      name: year, // ✅ match chart schema
+      value: items.length, // ✅ match chart schema
+    }))
+    .sortBy("name")
+    .value();
+};
+
+export function getScatterChartData(evData: EVData[]) {
+  // Group by (range, msrp) pair to count duplicates
+  const grouped = _.groupBy(evData, (v) => `${v.electricRange}_${v.baseMSRP}`);
+
+  return Object.entries(grouped)
+    .map(([key, vehicles]) => {
+      const [range, msrp] = key.split("_").map(Number);
+
+      return {
+        y: range, // electric range
+        x: msrp, // base MSRP
+        size: vehicles.length, // bubble size
+        make: vehicles[0].make,
+        model: vehicles[0].model,
+      };
+    })
+    .filter((item) => item.x > 0) // remove baseMSRP = 0
+    .sort((a, b) => a.x - b.x); // sort by range (asc)
+}

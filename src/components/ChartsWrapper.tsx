@@ -14,6 +14,9 @@ import {
   getTopCounties,
   getRangeDistributionData,
 } from "../utils/dataParser";
+import AdoptionTrendChart from "./charts/AdoptionTrendChart";
+import RangeVsPriceChart from "./charts/RangeVsPriceChart";
+import CountyEVTypeChart from "./charts/CountyEVTypeChart";
 
 interface ChartsWrapperProps {
   data: EVData[];
@@ -32,7 +35,6 @@ const ChartsWrapper: React.FC<ChartsWrapperProps> = ({ data }) => {
   const yearTrendData = getYearTrendData(data);
   const countyData = getTopCounties(processedData.countyDistribution, 10);
   const rangeData = getRangeDistributionData(processedData.rangeDistribution);
-
   return (
     <>
       {/* Key Metrics */}
@@ -66,6 +68,21 @@ const ChartsWrapper: React.FC<ChartsWrapperProps> = ({ data }) => {
         <div className="flex justify-center">
           <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
             <GeographicChart data={countyData} />
+          </div>
+        </div>
+        <div className="flex justify-center">
+          <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
+            <AdoptionTrendChart evData={data} />
+          </div>
+        </div>
+        <div className="flex justify-center">
+          <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
+            <CountyEVTypeChart evData={data} />
+          </div>
+        </div>
+        <div className="flex justify-center">
+          <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
+            <RangeVsPriceChart evData={data} />
           </div>
         </div>
       </div>
