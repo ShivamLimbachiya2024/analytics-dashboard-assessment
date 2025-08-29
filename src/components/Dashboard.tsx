@@ -24,7 +24,9 @@ const Dashboard: React.FC = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-2">
             Error Loading Data
           </h2>
-          <p className="text-gray-600">{error?.message || 'An error occurred'}</p>
+          <p className="text-gray-600">
+            {error?.message || "An error occurred"}
+          </p>
         </div>
       </div>
     );
@@ -41,7 +43,7 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 p-4 sm:p-6 lg:p-8 w-[90%] mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 p-4 sm:p-6 lg:p-8 ">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <header className="bg-white/80 backdrop-blur-sm shadow-lg border-b border-gray-200/50 rounded-t-2xl">
@@ -69,7 +71,27 @@ const Dashboard: React.FC = () => {
         {/* Main Content */}
         <main className="bg-white/30 backdrop-blur-sm rounded-b-2xl shadow-lg">
           <div className="px-8 sm:px-12 lg:px-16 py-12">
+            {/* Key Metrics */}
             <ChartsWrapper data={data} />
+
+            {/* Footer */}
+            <footer className="mt-20 pt-16">
+              <div className="text-center">
+                <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-10 shadow-lg max-w-lg mx-auto">
+                  <div className="text-3xl mb-4">📊</div>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-3">
+                    Electric Vehicle Analytics Dashboard
+                  </h3>
+                  <p className="text-gray-600 text-lg">
+                    Analyzing{" "}
+                    <span className="font-bold text-blue-600">
+                      {data.length.toLocaleString()}
+                    </span>{" "}
+                    electric vehicles
+                  </p>
+                </div>
+              </div>
+            </footer>
           </div>
         </main>
       </div>
