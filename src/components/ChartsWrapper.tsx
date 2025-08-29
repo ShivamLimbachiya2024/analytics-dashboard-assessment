@@ -1,18 +1,30 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import KeyMetrics from "./metrics/KeyMetrics";
-import ManufacturerChart from "./charts/ManufacturerChart";
-import VehicleTypeChart from "./charts/VehicleTypeChart";
-import YearTrendChart from "./charts/YearTrendChart";
-import RangeDistribution from "./charts/RangeDistribution";
-import GeographicChart from "./charts/GeographicChart";
 import type { EVData } from "../types/evData";
-import AdoptionTrendChart from "./charts/AdoptionTrendChart";
-import RangeVsPriceChart from "./charts/RangeVsPriceChart";
-import CountyEVTypeChart from "./charts/CountyEVTypeChart";
+
+// Lazy load all charts using barrel exports
+const ManufacturerChart = lazy(() => import("./charts").then(module => ({ default: module.ManufacturerChart })));
+const VehicleTypeChart = lazy(() => import("./charts").then(module => ({ default: module.VehicleTypeChart })));
+const YearTrendChart = lazy(() => import("./charts").then(module => ({ default: module.YearTrendChart })));
+const RangeDistribution = lazy(() => import("./charts").then(module => ({ default: module.RangeDistribution })));
+const GeographicChart = lazy(() => import("./charts").then(module => ({ default: module.GeographicChart })));
+const AdoptionTrendChart = lazy(() => import("./charts").then(module => ({ default: module.AdoptionTrendChart })));
+const RangeVsPriceChart = lazy(() => import("./charts").then(module => ({ default: module.RangeVsPriceChart })));
+const CountyEVTypeChart = lazy(() => import("./charts").then(module => ({ default: module.CountyEVTypeChart })));
 
 interface ChartsWrapperProps {
   data: EVData[];
 }
+
+// Loading component for lazy-loaded charts
+const ChartLoader: React.FC = () => (
+  <div className="flex items-center justify-center h-64 bg-white/60 backdrop-blur-sm rounded-2xl border border-gray-200/50">
+    <div className="flex flex-col items-center space-y-4">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <p className="text-gray-600 text-sm">Loading chart...</p>
+    </div>
+  </div>
+);
 
 const ChartsWrapper: React.FC<ChartsWrapperProps> = ({ data }) => {
 
@@ -28,42 +40,58 @@ const ChartsWrapper: React.FC<ChartsWrapperProps> = ({ data }) => {
         {/* First Row - Main Charts */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
           <div className="transform hover:scale-[1.02] transition-all duration-300">
-            <ManufacturerChart data={data} />
+            <Suspense fallback={<ChartLoader />}>
+              <ManufacturerChart data={data} />
+            </Suspense>
           </div>
           <div className="transform hover:scale-[1.02] transition-all duration-300">
-            <VehicleTypeChart data={data} />
+            <Suspense fallback={<ChartLoader />}>
+              <VehicleTypeChart data={data} />
+            </Suspense>
           </div>
         </div>
 
         {/* Second Row - Trend Charts */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
           <div className="transform hover:scale-[1.02] transition-all duration-300">
-            <YearTrendChart data={data} />
+            <Suspense fallback={<ChartLoader />}>
+              <YearTrendChart data={data} />
+            </Suspense>
           </div>
           <div className="transform hover:scale-[1.02] transition-all duration-300">
-            <RangeDistribution data={data} />
+            <Suspense fallback={<ChartLoader />}>
+              <RangeDistribution data={data} />
+            </Suspense>
           </div>
         </div>
 
         {/* Third Row - Geographic Chart */}
         <div className="flex justify-center">
           <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
-            <GeographicChart data={data} />
+            <Suspense fallback={<ChartLoader />}>
+              <GeographicChart data={data} />
+            </Suspense>
           </div>
         </div>
         <div className="flex justify-center">
           <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
-            <AdoptionTrendChart data={data} />
+            <Suspense fallback={<ChartLoader />}>
+              <AdoptionTrendChart data={data} />
+            </Suspense>
           </div>
         </div>
         <div className="flex justify-center">
           <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
-            <CountyEVTypeChart data={data} />
+            <Suspense fallback={<ChartLoader />}>
+              <CountyEVTypeChart data={data} />
+            </Suspense>
           </div>
         </div>
         <div className="flex justify-center">
           <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
-            <RangeVsPriceChart data={data} />
+            <Suspense fallback={<ChartLoader />}>
+              <RangeVsPriceChart data={data} />
+            </Suspense>
           </div>
         </div>
       </div>
