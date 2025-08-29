@@ -3,14 +3,30 @@ import KeyMetrics from "./metrics/KeyMetrics";
 import type { EVData } from "../types/evData";
 
 // Lazy load all charts using barrel exports
-const ManufacturerChart = lazy(() => import("./charts").then(module => ({ default: module.ManufacturerChart })));
-const VehicleTypeChart = lazy(() => import("./charts").then(module => ({ default: module.VehicleTypeChart })));
-const YearTrendChart = lazy(() => import("./charts").then(module => ({ default: module.YearTrendChart })));
-const RangeDistribution = lazy(() => import("./charts").then(module => ({ default: module.RangeDistribution })));
-const GeographicChart = lazy(() => import("./charts").then(module => ({ default: module.GeographicChart })));
-const AdoptionTrendChart = lazy(() => import("./charts").then(module => ({ default: module.AdoptionTrendChart })));
-const RangeVsPriceChart = lazy(() => import("./charts").then(module => ({ default: module.RangeVsPriceChart })));
-const CountyEVTypeChart = lazy(() => import("./charts").then(module => ({ default: module.CountyEVTypeChart })));
+const ManufacturerChart = lazy(() =>
+  import("./charts").then((module) => ({ default: module.ManufacturerChart }))
+);
+const VehicleTypeChart = lazy(() =>
+  import("./charts").then((module) => ({ default: module.VehicleTypeChart }))
+);
+const YearTrendChart = lazy(() =>
+  import("./charts").then((module) => ({ default: module.YearTrendChart }))
+);
+const RangeDistribution = lazy(() =>
+  import("./charts").then((module) => ({ default: module.RangeDistribution }))
+);
+const GeographicChart = lazy(() =>
+  import("./charts").then((module) => ({ default: module.GeographicChart }))
+);
+const AdoptionTrendChart = lazy(() =>
+  import("./charts").then((module) => ({ default: module.AdoptionTrendChart }))
+);
+const RangeVsPriceChart = lazy(() =>
+  import("./charts").then((module) => ({ default: module.RangeVsPriceChart }))
+);
+const CountyEVTypeChart = lazy(() =>
+  import("./charts").then((module) => ({ default: module.CountyEVTypeChart }))
+);
 
 interface ChartsWrapperProps {
   data: EVData[];
@@ -27,7 +43,6 @@ const ChartLoader: React.FC = () => (
 );
 
 const ChartsWrapper: React.FC<ChartsWrapperProps> = ({ data }) => {
-
   return (
     <>
       {/* Key Metrics */}
@@ -35,64 +50,62 @@ const ChartsWrapper: React.FC<ChartsWrapperProps> = ({ data }) => {
         <KeyMetrics data={data} />
       </div>
 
-      {/* Charts Grid */}
-      <div className="space-y-16">
-        {/* First Row - Main Charts */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
-          <div className="transform hover:scale-[1.02] transition-all duration-300">
-            <Suspense fallback={<ChartLoader />}>
-              <ManufacturerChart data={data} />
-            </Suspense>
-          </div>
-          <div className="transform hover:scale-[1.02] transition-all duration-300">
-            <Suspense fallback={<ChartLoader />}>
-              <VehicleTypeChart data={data} />
-            </Suspense>
-          </div>
+      {/* Charts Grid - Responsive Layout */}
+      <div className="flex flex-wrap gap-6 lg:gap-8 xl:gap-10">
+        {/* Chart 1 - Manufacturer Chart */}
+        <div className="flex-1 min-w-[300px] transform hover:scale-[1.02] transition-all duration-300">
+          <Suspense fallback={<ChartLoader />}>
+            <ManufacturerChart data={data} />
+          </Suspense>
         </div>
 
-        {/* Second Row - Trend Charts */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
-          <div className="transform hover:scale-[1.02] transition-all duration-300">
-            <Suspense fallback={<ChartLoader />}>
-              <YearTrendChart data={data} />
-            </Suspense>
-          </div>
-          <div className="transform hover:scale-[1.02] transition-all duration-300">
-            <Suspense fallback={<ChartLoader />}>
-              <RangeDistribution data={data} />
-            </Suspense>
-          </div>
+        {/* Chart 2 - Vehicle Type Chart */}
+        <div className="flex-1 min-w-[300px] transform hover:scale-[1.02] transition-all duration-300">
+          <Suspense fallback={<ChartLoader />}>
+            <VehicleTypeChart data={data} />
+          </Suspense>
         </div>
 
-        {/* Third Row - Geographic Chart */}
-        <div className="flex justify-center">
-          <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
-            <Suspense fallback={<ChartLoader />}>
-              <GeographicChart data={data} />
-            </Suspense>
-          </div>
+        {/* Chart 3 - Year Trend Chart */}
+        <div className="flex-1 min-w-[300px] transform hover:scale-[1.02] transition-all duration-300">
+          <Suspense fallback={<ChartLoader />}>
+            <YearTrendChart data={data} />
+          </Suspense>
         </div>
-        <div className="flex justify-center">
-          <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
-            <Suspense fallback={<ChartLoader />}>
-              <AdoptionTrendChart data={data} />
-            </Suspense>
-          </div>
+
+        {/* Chart 4 - Range Distribution */}
+        <div className="flex-1 min-w-[300px] transform hover:scale-[1.02] transition-all duration-300">
+          <Suspense fallback={<ChartLoader />}>
+            <RangeDistribution data={data} />
+          </Suspense>
         </div>
-        <div className="flex justify-center">
-          <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
-            <Suspense fallback={<ChartLoader />}>
-              <CountyEVTypeChart data={data} />
-            </Suspense>
-          </div>
+
+        {/* Chart 5 - Geographic Chart */}
+        <div className="w-full transform hover:scale-[1.01] transition-all duration-300">
+          <Suspense fallback={<ChartLoader />}>
+            <GeographicChart data={data} />
+          </Suspense>
         </div>
-        <div className="flex justify-center">
-          <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
-            <Suspense fallback={<ChartLoader />}>
-              <RangeVsPriceChart data={data} />
-            </Suspense>
-          </div>
+
+        {/* Chart 6 - Adoption Trend Chart */}
+        <div className="flex-1 min-w-[300px] transform hover:scale-[1.01] transition-all duration-300">
+          <Suspense fallback={<ChartLoader />}>
+            <AdoptionTrendChart data={data} />
+          </Suspense>
+        </div>
+
+        {/* Chart 7 - County EV Type Chart */}
+        <div className="flex-1 min-w-[300px] transform hover:scale-[1.01] transition-all duration-300">
+          <Suspense fallback={<ChartLoader />}>
+            <CountyEVTypeChart data={data} />
+          </Suspense>
+        </div>
+
+        {/* Chart 8 - Range vs Price Chart */}
+        <div className="w-full transform hover:scale-[1.01] transition-all duration-300">
+          <Suspense fallback={<ChartLoader />}>
+            <RangeVsPriceChart data={data} />
+          </Suspense>
         </div>
       </div>
 
