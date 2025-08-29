@@ -1,12 +1,17 @@
 import React from "react";
 import { PieChart } from "../common";
-import type { ChartDataPoint } from "../../types/evData";
+import type { EVData } from "../../types/evData";
+import { getVehicleTypeCounts, getVehicleTypeData } from "../../utils/dataParser";
 
 interface VehicleTypeChartProps {
-  data: ChartDataPoint[];
+  data: EVData[];
 }
 
 const VehicleTypeChart: React.FC<VehicleTypeChartProps> = ({ data }) => {
+  // Process data within the component
+  const vehicleTypeCounts = getVehicleTypeCounts(data);
+  const chartData = getVehicleTypeData(vehicleTypeCounts);
+
   const tooltipFormatter = (value: number, name?: string): [string, string] => [
     `${value.toLocaleString()} vehicles`,
     name ? name.replace("(BEV)", "").replace("(PHEV)", "").trim() : "",
@@ -19,7 +24,7 @@ const VehicleTypeChart: React.FC<VehicleTypeChartProps> = ({ data }) => {
 
   return (
     <PieChart
-      data={data}
+      data={chartData}
       title="Vehicle Type Distribution"
       subtitle="BEV vs PHEV breakdown"
       height={400}

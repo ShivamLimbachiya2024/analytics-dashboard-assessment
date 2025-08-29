@@ -4,11 +4,11 @@ import ScatterChart from "../common/ScatterChart";
 import { getScatterChartData } from "../../utils/dataParser";
 
 type Props = {
-  evData: EVData[];
+  data: EVData[];
 };
 
-const RangeVsPriceChart: React.FC<Props> = ({ evData }) => {
-  const chartData = getScatterChartData(evData);
+const RangeVsPriceChart: React.FC<Props> = ({ data }) => {
+  const chartData = getScatterChartData(data);
   // format → [{ x: 250, y: 40000, z: 123, name: "Tesla Model 3" }]
   return (
     <ScatterChart

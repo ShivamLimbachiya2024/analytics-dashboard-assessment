@@ -6,14 +6,6 @@ import YearTrendChart from "./charts/YearTrendChart";
 import RangeDistribution from "./charts/RangeDistribution";
 import GeographicChart from "./charts/GeographicChart";
 import type { EVData } from "../types/evData";
-import {
-  processEVData,
-  getTopManufacturers,
-  getVehicleTypeData,
-  getYearTrendData,
-  getTopCounties,
-  getRangeDistributionData,
-} from "../utils/dataParser";
 import AdoptionTrendChart from "./charts/AdoptionTrendChart";
 import RangeVsPriceChart from "./charts/RangeVsPriceChart";
 import CountyEVTypeChart from "./charts/CountyEVTypeChart";
@@ -23,23 +15,12 @@ interface ChartsWrapperProps {
 }
 
 const ChartsWrapper: React.FC<ChartsWrapperProps> = ({ data }) => {
-  // Process the raw data
-  const processedData = processEVData(data);
 
-  // Generate chart-specific data
-  const manufacturerData = getTopManufacturers(
-    processedData.manufacturerCounts,
-    10
-  );
-  const vehicleTypeData = getVehicleTypeData(processedData.vehicleTypeCounts);
-  const yearTrendData = getYearTrendData(data);
-  const countyData = getTopCounties(processedData.countyDistribution, 10);
-  const rangeData = getRangeDistributionData(processedData.rangeDistribution);
   return (
     <>
       {/* Key Metrics */}
       <div className="mb-16">
-        <KeyMetrics data={processedData} />
+        <KeyMetrics data={data} />
       </div>
 
       {/* Charts Grid */}
@@ -47,42 +28,42 @@ const ChartsWrapper: React.FC<ChartsWrapperProps> = ({ data }) => {
         {/* First Row - Main Charts */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
           <div className="transform hover:scale-[1.02] transition-all duration-300">
-            <ManufacturerChart data={manufacturerData} />
+            <ManufacturerChart data={data} />
           </div>
           <div className="transform hover:scale-[1.02] transition-all duration-300">
-            <VehicleTypeChart data={vehicleTypeData} />
+            <VehicleTypeChart data={data} />
           </div>
         </div>
 
         {/* Second Row - Trend Charts */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
           <div className="transform hover:scale-[1.02] transition-all duration-300">
-            <YearTrendChart data={yearTrendData} />
+            <YearTrendChart data={data} />
           </div>
           <div className="transform hover:scale-[1.02] transition-all duration-300">
-            <RangeDistribution data={rangeData} />
+            <RangeDistribution data={data} />
           </div>
         </div>
 
         {/* Third Row - Geographic Chart */}
         <div className="flex justify-center">
           <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
-            <GeographicChart data={countyData} />
+            <GeographicChart data={data} />
           </div>
         </div>
         <div className="flex justify-center">
           <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
-            <AdoptionTrendChart evData={data} />
+            <AdoptionTrendChart data={data} />
           </div>
         </div>
         <div className="flex justify-center">
           <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
-            <CountyEVTypeChart evData={data} />
+            <CountyEVTypeChart data={data} />
           </div>
         </div>
         <div className="flex justify-center">
           <div className="w-full max-w-6xl transform hover:scale-[1.01] transition-all duration-300">
-            <RangeVsPriceChart evData={data} />
+            <RangeVsPriceChart data={data} />
           </div>
         </div>
       </div>
@@ -98,7 +79,7 @@ const ChartsWrapper: React.FC<ChartsWrapperProps> = ({ data }) => {
             <p className="text-gray-600 text-lg">
               Analyzing{" "}
               <span className="font-bold text-blue-600">
-                {processedData.totalVehicles.toLocaleString()}
+                {data.length.toLocaleString()}
               </span>{" "}
               electric vehicles
             </p>

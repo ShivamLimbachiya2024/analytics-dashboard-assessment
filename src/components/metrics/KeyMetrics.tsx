@@ -1,29 +1,33 @@
 import React from "react";
-import type { ProcessedEVData } from "../../types/evData";
+import type { EVData } from "../../types/evData";
+import { processEVData } from "../../utils/dataParser";
 
 interface KeyMetricsProps {
-  data: ProcessedEVData;
+  data: EVData[];
 }
 
 const KeyMetrics: React.FC<KeyMetricsProps> = ({ data }) => {
-  const topManufacturer = Object.entries(data.manufacturerCounts).sort(
+  // Process the raw data internally
+  const processedData = processEVData(data);
+
+  const topManufacturer = Object.entries(processedData.manufacturerCounts).sort(
     ([, a], [, b]) => b - a
   )[0];
 
   const bevPercentage = Math.round(
-    (data.vehicleTypeCounts.BEV / data.totalVehicles) * 100
+    (processedData.vehicleTypeCounts.BEV / processedData.totalVehicles) * 100
   );
 
   const metrics = [
     {
       title: "Total EVs",
-      value: data.totalVehicles.toLocaleString(),
+      value: processedData.totalVehicles.toLocaleString(),
       icon: "🚗",
       color: "from-blue-500 to-blue-600",
     },
     {
       title: "Average Range",
-      value: `${data.averageRange} miles`,
+      value: `${processedData.averageRange} miles`,
       icon: "⚡",
       color: "from-green-500 to-green-600",
     },

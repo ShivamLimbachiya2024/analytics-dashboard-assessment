@@ -1,12 +1,17 @@
 import React from "react";
 import { BarChart } from "../common";
-import type { ChartDataPoint } from "../../types/evData";
+import type { EVData } from "../../types/evData";
+import { getCountyDistribution, getTopCounties } from "../../utils/dataParser";
 
 interface GeographicChartProps {
-  data: ChartDataPoint[];
+  data: EVData[];
 }
 
 const GeographicChart: React.FC<GeographicChartProps> = ({ data }) => {
+  // Process data within the component
+  const countyDistribution = getCountyDistribution(data);
+  const chartData = getTopCounties(countyDistribution, 10);
+
   const tooltipFormatter = (value: number): [string, string] => [
     `${value.toLocaleString()} vehicles`,
     "Count",
@@ -14,7 +19,7 @@ const GeographicChart: React.FC<GeographicChartProps> = ({ data }) => {
 
   return (
     <BarChart
-      data={data}
+      data={chartData}
       title="Top Counties by EV Count"
       subtitle="Geographic distribution of electric vehicles"
       height={450}

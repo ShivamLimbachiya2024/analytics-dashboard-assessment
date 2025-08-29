@@ -1,12 +1,16 @@
 import React from "react";
 import { LineChart } from "../common";
-import type { YearTrendData } from "../../types/evData";
+import type { EVData } from "../../types/evData";
+import { getYearTrendData } from "../../utils/dataParser";
 
 interface YearTrendChartProps {
-  data: YearTrendData[];
+  data: EVData[];
 }
 
 const YearTrendChart: React.FC<YearTrendChartProps> = ({ data }) => {
+  // Process data within the component
+  const chartData = getYearTrendData(data);
+
   const tooltipFormatter = (value: number, name?: string): [string, string] => [
     `${value.toLocaleString()} vehicles`,
     name === "count" ? "Total" : name || "",
@@ -35,7 +39,7 @@ const YearTrendChart: React.FC<YearTrendChartProps> = ({ data }) => {
 
   return (
     <LineChart
-      data={data}
+      data={chartData}
       title="EV Adoption Trend by Year"
       subtitle="Growth patterns over time"
       height={400}

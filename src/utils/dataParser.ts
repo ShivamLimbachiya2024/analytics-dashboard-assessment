@@ -64,40 +64,41 @@ export const parseCSVData = (csvText: string): EVData[] => {
 };
 
 /**
- * Processes raw EV data and returns aggregated statistics
+ * Calculates manufacturer distribution from EV data
  */
-export const processEVData = (data: EVData[]): ProcessedEVData => {
-  const totalVehicles = data.length;
+export const getManufacturerCounts = (data: EVData[]): Record<string, number> => {
+  return _.countBy(data, "make");
+};
 
-  // Calculate average range using lodash for better performance
-  const averageRange =
-    _.chain(data)
-      .filter((item) => item.electricRange > 0)
-      .meanBy("electricRange")
-      .round()
-      .value() || 0;
-
-  // Use lodash countBy for efficient counting
-  const manufacturerCounts = _.countBy(data, "make");
-  const countyDistribution = _.countBy(data, "county");
-  const cafvEligibilityStats = _.countBy(data, "cafvEligibility");
-  const yearDistributionRaw = _.countBy(data, "modelYear");
-
-  // Convert year distribution keys to numbers
-  const yearDistribution: Record<number, number> = {};
-  _.forEach(yearDistributionRaw, (count, year) => {
-    yearDistribution[_.toInteger(year)] = count;
-  });
-
-  // Vehicle type counts using lodash groupBy
+/**
+ * Calculates vehicle type distribution from EV data
+ */
+export const getVehicleTypeCounts = (data: EVData[]): { BEV: number; PHEV: number } => {
   const vehicleTypeGroups = _.groupBy(data, "electricVehicleType");
-  const vehicleTypeCounts = {
+  return {
     BEV: _.get(vehicleTypeGroups, VEHICLE_TYPES.BEV, []).length,
     PHEV: _.get(vehicleTypeGroups, VEHICLE_TYPES.PHEV, []).length,
   };
+};
 
-  // Range distribution with proper typing
-  const rangeDistribution = {
+/**
+ * Calculates county distribution from EV data
+ */
+export const getCountyDistribution = (data: EVData[]): Record<string, number> => {
+  return _.countBy(data, "county");
+};
+
+/**
+ * Calculates range distribution from EV data
+ */
+export const getRangeDistributionCounts = (data: EVData[]): {
+  "0-50": number;
+  "51-100": number;
+  "101-200": number;
+  "201-300": number;
+  "300+": number;
+} => {
+  return {
     "0-50": _.filter(
       data,
       (item) => item.electricRange >= 0 && item.electricRange <= 50
@@ -116,6 +117,37 @@ export const processEVData = (data: EVData[]): ProcessedEVData => {
     ).length,
     "300+": _.filter(data, (item) => item.electricRange > 300).length,
   };
+};
+
+/**
+ * Processes raw EV data and returns key metrics and distributions
+ */
+export const processEVData = (data: EVData[]): ProcessedEVData => {
+  const totalVehicles = data.length;
+
+  // Calculate average range using lodash for better performance
+  const averageRange =
+    _.chain(data)
+      .filter((item) => item.electricRange > 0)
+      .meanBy("electricRange")
+      .round()
+      .value() || 0;
+
+  // Calculate CAFV eligibility stats
+  const cafvEligibilityStats = _.countBy(data, "cafvEligibility");
+  
+  // Convert year distribution keys to numbers
+  const yearDistributionRaw = _.countBy(data, "modelYear");
+  const yearDistribution: Record<number, number> = {};
+  _.forEach(yearDistributionRaw, (count, year) => {
+    yearDistribution[_.toInteger(year)] = count;
+  });
+
+  // Get distributions using separate functions
+  const manufacturerCounts = getManufacturerCounts(data);
+  const vehicleTypeCounts = getVehicleTypeCounts(data);
+  const countyDistribution = getCountyDistribution(data);
+  const rangeDistribution = getRangeDistributionCounts(data);
 
   return {
     totalVehicles,

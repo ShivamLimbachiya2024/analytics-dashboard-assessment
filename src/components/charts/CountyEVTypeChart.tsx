@@ -4,11 +4,11 @@ import type { EVData } from "../../types/evData";
 import { getStackedBarData } from "../../utils/dataParser";
 
 type Props = {
-  evData: EVData[];
+  data: EVData[];
 };
 
-const CountyEVTypeChart: React.FC<Props> = ({ evData }) => {
-  const chartData = getStackedBarData(evData);
+const CountyEVTypeChart: React.FC<Props> = ({ data }) => {
+  const chartData = getStackedBarData(data);
   // format → [{ name: "King", BEV: 1234, PHEV: 456 }]
   return (
     <StackedBarChart

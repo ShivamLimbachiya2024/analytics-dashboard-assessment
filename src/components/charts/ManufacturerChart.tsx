@@ -1,15 +1,20 @@
 import React from "react";
 import { BarChart } from "../common";
-import type { ChartDataPoint } from "../../types/evData";
+import type { EVData } from "../../types/evData";
+import { getManufacturerCounts, getTopManufacturers } from "../../utils/dataParser";
 
 interface ManufacturerChartProps {
-  data: ChartDataPoint[];
+  data: EVData[];
 }
 
 const ManufacturerChart: React.FC<ManufacturerChartProps> = ({ data }) => {
+  // Process data within the component
+  const manufacturerCounts = getManufacturerCounts(data);
+  const chartData = getTopManufacturers(manufacturerCounts, 10);
+
   return (
     <BarChart
-      data={data}
+      data={chartData}
       title="Top Manufacturers"
       subtitle="Leading EV brands by volume"
       height={400}

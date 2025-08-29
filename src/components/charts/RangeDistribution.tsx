@@ -1,12 +1,17 @@
 import React from "react";
 import { BarChart } from "../common";
-import type { ChartDataPoint } from "../../types/evData";
+import type { EVData } from "../../types/evData";
+import { getRangeDistributionCounts, getRangeDistributionData } from "../../utils/dataParser";
 
 interface RangeDistributionProps {
-  data: ChartDataPoint[];
+  data: EVData[];
 }
 
 const RangeDistribution: React.FC<RangeDistributionProps> = ({ data }) => {
+  // Process data within the component
+  const rangeDistribution = getRangeDistributionCounts(data);
+  const chartData = getRangeDistributionData(rangeDistribution);
+
   const tooltipFormatter = (value: number): [string, string] => [
     `${value.toLocaleString()} vehicles`,
     "Count",
@@ -14,7 +19,7 @@ const RangeDistribution: React.FC<RangeDistributionProps> = ({ data }) => {
 
   return (
     <BarChart
-      data={data}
+      data={chartData}
       title="Electric Range Distribution"
       subtitle="Vehicle range capabilities"
       height={400}

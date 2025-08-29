@@ -4,11 +4,11 @@ import { getAreaChartData } from "../../utils/dataParser";
 import AreaChart from "../common/AreaChart";
 
 type Props = {
-  evData: EVData[];
+  data: EVData[];
 };
 
-const AdoptionTrendChart: React.FC<Props> = ({ evData }) => {
-  const chartData = getAreaChartData(evData);
+const AdoptionTrendChart: React.FC<Props> = ({ data }) => {
+  const chartData = getAreaChartData(data);
   // format → [{ name: 2015, value: 1234 }, { name: 2016, value: 2000 }]
 
   return (
