@@ -48,6 +48,7 @@ const YearTrendChart: React.FC<YearTrendChartProps> = ({ data }) => {
       margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
       tooltipFormatter={tooltipFormatter}
       showLegend={true}
+      className="rounded-[15px]"
     />
   );
 };

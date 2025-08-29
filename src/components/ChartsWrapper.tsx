@@ -110,9 +110,9 @@ const ChartsWrapper: React.FC<ChartsWrapperProps> = ({ data }) => {
       </div>
 
       {/* Footer */}
-      <footer className="mt-20 pt-16 border-t border-gray-200/50">
+      <footer className="mt-20 pt-16 ">
         <div className="text-center">
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-10 shadow-lg border border-gray-200/50 max-w-lg mx-auto">
+          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-10 shadow-lg  max-w-lg mx-auto">
             <div className="text-3xl mb-4">📊</div>
             <h3 className="text-2xl font-bold text-gray-800 mb-3">
               Electric Vehicle Analytics Dashboard

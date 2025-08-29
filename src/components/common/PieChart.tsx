@@ -66,14 +66,16 @@ const PieChart: React.FC<PieChartProps> = ({
     );
   };
 
-  const defaultTooltipFormatter = (value: number, name?: string): [string, string] => [
-    `${value.toLocaleString()} vehicles`,
-    name || "",
-  ];
+  const defaultTooltipFormatter = (
+    value: number,
+    name?: string
+  ): [string, string] => [`${value.toLocaleString()} vehicles`, name || ""];
 
   return (
-    <div className={`bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-gray-200/50 hover:shadow-2xl transition-all duration-300 ${className}`}>
-      <div className="flex items-center mb-6">
+    <div
+      className={`bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-gray-200/50 hover:shadow-2xl transition-all duration-300 ${className}`}
+    >
+      <div className="flex items-center mb-6 justify-center">
         <div className="w-3 h-8 bg-gradient-to-b from-green-500 to-emerald-600 rounded-full mr-4"></div>
         <div>
           <h3 className="text-xl font-bold text-gray-800">{title}</h3>
@@ -110,17 +112,18 @@ const PieChart: React.FC<PieChartProps> = ({
               backgroundColor: "rgba(255, 255, 255, 0.95)",
               border: "1px solid #e2e8f0",
               borderRadius: "12px",
-              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              boxShadow:
+                "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
               backdropFilter: "blur(8px)",
             }}
             formatter={tooltipFormatter || defaultTooltipFormatter}
           />
           {showLegend && (
             <Legend
-              wrapperStyle={{ 
+              wrapperStyle={{
                 paddingTop: "20px",
                 fontSize: "14px",
-                fontWeight: "500"
+                fontWeight: "500",
               }}
               formatter={legendFormatter}
             />

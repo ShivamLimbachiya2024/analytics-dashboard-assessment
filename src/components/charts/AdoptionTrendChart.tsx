@@ -19,6 +19,7 @@ const AdoptionTrendChart: React.FC<Props> = ({ data }) => {
       gradientColors={{ start: "#6366f1", end: "#312e81" }}
       strokeColor="#6366f1"
       height={400}
+      className="rounded-[15px]"
     />
   );
 };

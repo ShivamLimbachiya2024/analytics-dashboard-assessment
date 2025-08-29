@@ -18,6 +18,7 @@ const CountyEVTypeChart: React.FC<Props> = ({ data }) => {
       subtitle="BEV vs PHEV by county"
       colors={["#22c55e", "#3b82f6"]}
       height={400}
+      className="rounded-[15px]"
     />
   );
 };

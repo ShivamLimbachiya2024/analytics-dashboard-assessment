@@ -1,7 +1,10 @@
 import React from "react";
 import { PieChart } from "../common";
 import type { EVData } from "../../types/evData";
-import { getVehicleTypeCounts, getVehicleTypeData } from "../../utils/dataParser";
+import {
+  getVehicleTypeCounts,
+  getVehicleTypeData,
+} from "../../utils/dataParser";
 
 interface VehicleTypeChartProps {
   data: EVData[];
@@ -20,7 +23,10 @@ const VehicleTypeChart: React.FC<VehicleTypeChartProps> = ({ data }) => {
   const legendFormatter = (value: string) =>
     value
       .replace("Battery Electric Vehicle (BEV)", "Battery Electric (BEV)")
-      .replace("Plug-in Hybrid Electric Vehicle (PHEV)", "Plug-in Hybrid (PHEV)");
+      .replace(
+        "Plug-in Hybrid Electric Vehicle (PHEV)",
+        "Plug-in Hybrid (PHEV)"
+      );
 
   return (
     <PieChart
@@ -35,6 +41,7 @@ const VehicleTypeChart: React.FC<VehicleTypeChartProps> = ({ data }) => {
       showLegend={true}
       tooltipFormatter={tooltipFormatter}
       legendFormatter={legendFormatter}
+      className="rounded-[15px]"
     />
   );
 };

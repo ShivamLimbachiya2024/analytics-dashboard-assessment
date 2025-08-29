@@ -1,7 +1,10 @@
 import React from "react";
 import { BarChart } from "../common";
 import type { EVData } from "../../types/evData";
-import { getManufacturerCounts, getTopManufacturers } from "../../utils/dataParser";
+import {
+  getManufacturerCounts,
+  getTopManufacturers,
+} from "../../utils/dataParser";
 
 interface ManufacturerChartProps {
   data: EVData[];
@@ -22,6 +25,7 @@ const ManufacturerChart: React.FC<ManufacturerChartProps> = ({ data }) => {
       gradientColors={{ start: "#3b82f6", end: "#1d4ed8" }}
       strokeColor="#3b82f6"
       margin={{ top: 20, right: 30, left: 20, bottom: 80 }}
+      className="rounded-[15px]"
     />
   );
 };

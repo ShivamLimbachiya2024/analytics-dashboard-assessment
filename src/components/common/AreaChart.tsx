@@ -34,7 +34,7 @@ const AreaChart: React.FC<AreaChartProps> = ({
     <div
       className={`bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-gray-200/50 hover:shadow-2xl transition-all duration-300 ${className}`}
     >
-      <div className="flex items-center mb-6">
+      <div className="flex items-center mb-6 justify-center">
         <div
           className="w-3 h-8 rounded-full mr-4"
           style={{

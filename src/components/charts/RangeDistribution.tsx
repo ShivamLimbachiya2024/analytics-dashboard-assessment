@@ -1,7 +1,10 @@
 import React from "react";
 import { BarChart } from "../common";
 import type { EVData } from "../../types/evData";
-import { getRangeDistributionCounts, getRangeDistributionData } from "../../utils/dataParser";
+import {
+  getRangeDistributionCounts,
+  getRangeDistributionData,
+} from "../../utils/dataParser";
 
 interface RangeDistributionProps {
   data: EVData[];
@@ -29,6 +32,7 @@ const RangeDistribution: React.FC<RangeDistributionProps> = ({ data }) => {
       margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
       xAxisHeight={60}
       tooltipFormatter={tooltipFormatter}
+      className="rounded-[15px]"
     />
   );
 };

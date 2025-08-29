@@ -29,6 +29,7 @@ const GeographicChart: React.FC<GeographicChartProps> = ({ data }) => {
       margin={{ top: 20, right: 40, left: 40, bottom: 100 }}
       xAxisHeight={100}
       tooltipFormatter={tooltipFormatter}
+      className="rounded-[15px]"
     />
   );
 };

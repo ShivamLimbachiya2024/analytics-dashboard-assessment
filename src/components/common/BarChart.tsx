@@ -44,12 +44,14 @@ const BarChart: React.FC<BarChartProps> = ({
   ];
 
   return (
-    <div className={`bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-gray-200/50 hover:shadow-2xl transition-all duration-300 ${className}`}>
-      <div className="flex items-center mb-6">
-        <div 
+    <div
+      className={`bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-gray-200/50 hover:shadow-2xl transition-all duration-300 ${className}`}
+    >
+      <div className="flex items-center mb-6 justify-center">
+        <div
           className="w-3 h-8 rounded-full mr-4"
           style={{
-            background: `linear-gradient(to bottom, ${gradientColors.start}, ${gradientColors.end})`
+            background: `linear-gradient(to bottom, ${gradientColors.start}, ${gradientColors.end})`,
           }}
         ></div>
         <div>
@@ -62,29 +64,30 @@ const BarChart: React.FC<BarChartProps> = ({
           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" opacity={0.6} />
           <XAxis
             dataKey="name"
-            tick={{ fontSize: 11, fill: '#6b7280' }}
+            tick={{ fontSize: 11, fill: "#6b7280" }}
             angle={xAxisAngle}
             textAnchor="end"
             height={xAxisHeight}
-            axisLine={{ stroke: '#d1d5db' }}
+            axisLine={{ stroke: "#d1d5db" }}
           />
-          <YAxis 
-            tick={{ fontSize: 11, fill: '#6b7280' }} 
-            axisLine={{ stroke: '#d1d5db' }}
+          <YAxis
+            tick={{ fontSize: 11, fill: "#6b7280" }}
+            axisLine={{ stroke: "#d1d5db" }}
           />
           <Tooltip
             contentStyle={{
               backgroundColor: "rgba(255, 255, 255, 0.95)",
               border: "1px solid #e2e8f0",
               borderRadius: "12px",
-              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              boxShadow:
+                "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
               backdropFilter: "blur(8px)",
             }}
             formatter={tooltipFormatter || defaultTooltipFormatter}
           />
-          <Bar 
-            dataKey="value" 
-            fill={`url(#${gradientId})`} 
+          <Bar
+            dataKey="value"
+            fill={`url(#${gradientId})`}
             radius={[8, 8, 0, 0]}
             stroke={strokeColor}
             strokeWidth={1}

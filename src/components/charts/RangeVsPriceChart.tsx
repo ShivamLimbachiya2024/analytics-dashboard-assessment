@@ -18,6 +18,7 @@ const RangeVsPriceChart: React.FC<Props> = ({ data }) => {
       xLabel="Electric Range (miles)"
       yLabel="Base MSRP ($)"
       height={400}
+      className="rounded-[15px]"
     />
   );
 };
