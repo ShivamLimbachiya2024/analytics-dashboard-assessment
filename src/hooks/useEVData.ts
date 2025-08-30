@@ -12,7 +12,7 @@ export const useEVData = () => {
 
   const getAllEVDataAPI = async (): Promise<EVDataResponse> => {
     const { data, error } = await fetchRequest(
-      "/public/Electric_Vehicle_Population_Data.csv"
+      "/Electric_Vehicle_Population_Data.csv"
     );
     if (data && !error) {
       const parsedData = parseCSVData(data);
