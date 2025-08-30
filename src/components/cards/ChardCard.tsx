@@ -2,7 +2,6 @@ const ChartCard = ({
   title,
   icon: Icon,
   children,
-  fullWidth = false,
 }: {
   title: string;
   icon: any;
